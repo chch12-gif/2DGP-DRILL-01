@@ -49,4 +49,17 @@ for x in range(200, 300):
     attack_2_frame = (attack_2_frame + 1) % attack_2_frame_count
     delay(0.05)
 
+walk = load_image('walk_axe.png')
+walk_frame_count = 8
+walk_frame_width = walk.w // walk_frame_count
+walk_frame_height = walk.h
+
+walk_frame = 0
+for x in range(300, 400):
+    clear_canvas()
+    walk.clip_draw(walk_frame * walk_frame_width, 0, walk_frame_width, walk_frame_height, x, 90)
+    update_canvas()
+    walk_frame = (walk_frame + 1) % walk_frame_count
+    delay(0.05)
+
 close_canvas()
