@@ -9,7 +9,7 @@ from pico2d import *
 open_canvas()
 character = load_image('run_axe.png')
 
-frame_count = 8
+frame_count = 6
 frame_width = character.w // frame_count
 frame_height = character.h
 
