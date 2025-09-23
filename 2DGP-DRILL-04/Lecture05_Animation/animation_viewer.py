@@ -36,5 +36,17 @@ for x in range(100, 200):
     run_attack_frame = (run_attack_frame + 1) % run_attack_frame_count
     delay(0.05)
 
+attack_2 = load_image('attack_2_axe.png')
+attack_2_frame_count = 4
+attack_2_frame_width = attack_2.w // attack_2_frame_count
+attack_2_frame_height = attack_2.h
+
+attack_2_frame = 0
+for x in range(200, 300):
+    clear_canvas()
+    attack_2.clip_draw(attack_2_frame * attack_2_frame_width, 0, attack_2_frame_width, attack_2_frame_height, x, 90)
+    update_canvas()
+    attack_2_frame = (attack_2_frame + 1) % attack_2_frame_count
+    delay(0.05)
 
 close_canvas()
