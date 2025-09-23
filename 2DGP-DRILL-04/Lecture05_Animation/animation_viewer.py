@@ -23,4 +23,11 @@ for x in range(100):
     frame = (frame + 1) % frame_count
     delay(0.05)
 
+run_attack = load_image('run&attack.png')
+run_attack_frame_count = 4
+run_attack_frame_width = run_attack.w // run_attack_frame_count
+run_attack_frame_height = run_attack.h
+
+
+
 close_canvas()
