@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/boy.py">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/boy.py" />
+              <option name="originalContent" value="from pico2d import *&#10;from boy import Boy&#10;&#10;open_canvas()&#10;boy = Boy()&#10;&#10;running = True&#10;while running:&#10;    handle_events = get_events()&#10;    for event in handle_events:&#10;        if event.type == SDL_QUIT:&#10;            running = False&#10;        else:&#10;            boy.handle_event(event)&#10;    boy.update()&#10;    clear_canvas()&#10;    boy.draw()&#10;    update_canvas()&#10;    delay(0.03)&#10;close_canvas()&#10;" />
+              <option name="updatedContent" value="from pico2d import *&#10;&#10;# Boy 클래스 정의&#10;class Boy:&#10;    def __init__(self):&#10;        self.x = 400&#10;        self.y = 90&#10;        self.frame = 0&#10;        self.dir = 0  # -1: 왼쪽, 1: 오른쪽, 0: 정지&#10;        self.image_stay = load_image('stay.jpg')&#10;        self.image_run = load_image('run.jpg')&#10;&#10;    def update(self):&#10;        if self.dir != 0:&#10;            self.x += self.dir * 5&#10;            self.x = clamp(0, self.x, 800)&#10;            self.frame = (self.frame + 1) % 8&#10;        else:&#10;            self.frame = 0&#10;&#10;    def draw(self):&#10;        if self.dir == 0:&#10;            self.image_stay.draw(self.x, self.y)&#10;        else:&#10;            if self.dir == 1:&#10;                self.image_run.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)&#10;            else:&#10;                self.image_run.clip_composite_draw(self.frame * 100, 0, 100, 100, 0, 'h', self.x, self.y, 100, 100)&#10;&#10;    def handle_event(self, event):&#10;        if event.type == SDL_KEYDOWN:&#10;            if event.key == SDLK_RIGHT:&#10;                self.dir += 1&#10;            elif event.key == SDLK_LEFT:&#10;                self.dir -= 1&#10;        elif event.type == SDL_KEYUP:&#10;            if event.key == SDLK_RIGHT:&#10;                self.dir -= 1&#10;            elif event.key == SDLK_LEFT:&#10;                self.dir += 1" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
