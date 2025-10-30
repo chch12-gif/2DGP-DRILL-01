@@ -5,11 +5,15 @@ open_canvas()
 
 ch = load_image('character.png')
 x = 400
-y = ch.h // 2  # 캐릭터의 바닥이 화면 바닥에 오도록 y좌표 설정
-speed = 5      # 캐릭터 이동 속도
+scale = 0.8
+new_width = ch.w * scale
+new_height = ch.h * scale
 
-dir_x = 0  # 수평 방향 (기존 dir 변수 -> dir_x로 변경)
-dir_y = 0  # 수직 방향 (새로 추가)
+y = new_height // 2
+speed = 5
+
+dir_x = 0
+dir_y = 0
 
 running = True # 게임 루프 실행 여부
 
@@ -50,7 +54,7 @@ while running:
 
     # 5. 그리기 (렌더링)
     clear_canvas()   # 배경 지우기
-    ch.draw(x, y)    # 캐릭터 그리기
+    ch.draw(x, y, new_width, new_height)   # 캐릭터 그리기
     update_canvas()  # 화면에 최종 출력
 
     delay(0.01)      # 아주 잠깐 대기
