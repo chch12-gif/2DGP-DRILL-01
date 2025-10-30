@@ -1,23 +1,25 @@
 from pico2d import *
 
-
+# --- 1. 초기화 및 기본 설정 ---
 open_canvas()
 
+# 1-1. 이미지 로드 (파일 3개 각각 로드)
+ch_front = load_image('character.png')
+ch_side = load_image('side.png')
+ch_back = load_image('back.png')
 
-ch_sheet = load_image('character_sheet.jpg')
+# 1-2. 크기 및 위치 설정
+scale = 0.8 # ◀◀ 크기 비율
 
-
-scale = 0.8
-
-
-frame_w_orig = ch_sheet.w // 3
-frame_h_orig = ch_sheet.h
+# '정면' 이미지를 기준으로 크기 계산
+frame_w_orig = ch_front.w
+frame_h_orig = ch_front.h
 
 new_width = frame_w_orig * scale
 new_height = frame_h_orig * scale
 
 x = 400
-y = new_height // 2
+y = new_height // 2 # ◀◀ 줄어든 높이 기준으로 y좌표 설정
 speed = 5
 
 # 1-3. 방향 및 상태 변수
@@ -25,14 +27,9 @@ dir_x = 0
 dir_y = 0
 running = True
 
-# 1-4. 애니메이션 및 방향 변수
-# 'front':0, 'side':1, 'back':2 (스프라이트 시트의 인덱스)
-current_animation_frame_idx = 0
-facing_x = 0  # 0: 정면/후면, 1: 오른쪽, -1: 왼쪽 (좌우 뒤집기에 사용)
-
 # --- 2. 게임 루프 ---
 while running:
-    # 3. 이벤트 처리 (입력)
+    # 3. 이벤트 처리 (입력) - 이전과 동일
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -62,37 +59,31 @@ while running:
     x += dir_x * speed
     y += dir_y * speed
 
-    # 4-1. 캐릭터 애니메이션 프레임 및 방향 결정
-    if dir_x == 0 and dir_y == 0:  # 멈춰 있을 때 (정면)
-        current_animation_frame_idx = 0  # FRONT
-        facing_x = 0  # 정면일 때는 뒤집지 않음
-    elif dir_x != 0:  # 좌우로 움직일 때 (옆모습)
-        current_animation_frame_idx = 1  # SIDE
-        if dir_x > 0:
-            facing_x = 1  # 오른쪽
-        else:
-            facing_x = -1  # 왼쪽
-    elif dir_y > 0:  # 위로 움직일 때 (뒷모습)
-        current_animation_frame_idx = 2  # BACK
-        facing_x = 0  # 뒷모습일 때는 뒤집지 않음
-    elif dir_y < 0:  # 아래로 움직일 때 (정면)
-        current_animation_frame_idx = 0  # FRONT
-        facing_x = 0  # 정면일 때는 뒤집지 않음
-
     # --- 5. 그리기 (렌더링) ---
     clear_canvas()
 
-    # 스프라이트 시트에서 현재 프레임의 시작 X 좌표 계산
-    frame_x_on_sheet = current_animation_frame_idx * frame_w_orig
+    # 5-1. 상황에 따라 그릴 이미지와 뒤집기 옵션 결정
+    image_to_draw = ch_front  # 기본값은 정면
+    flip_option = ''          # 기본값은 뒤집지 않음
 
-    # 뒤집기 설정 (facing_x가 -1일 때만 수평 뒤집기)
-    flip_option = 'h' if facing_x == -1 else ''
+    if dir_x == 0 and dir_y == 0: # 멈춰 있을 때
+        image_to_draw = ch_front
+    elif dir_x != 0: # 좌우로 움직일 때
+        image_to_draw = ch_side
+        if dir_x > 0: # 오른쪽으로 갈 때 (원본이 왼쪽을 보니 '뒤집기')
+            flip_option = 'h'
+        else: # 왼쪽으로 갈 때 (원본 '그대로')
+            flip_option = ''
+    elif dir_y > 0: # 위로 움직일 때
+        image_to_draw = ch_back
+    elif dir_y < 0: # 아래로 움직일 때
+        image_to_draw = ch_front
 
-    # clip_composite_draw(소스x, 소스y, 소스w, 소스h, 각도, 뒤집기, 목적x, 목적y, 목적w, 목적h)
-    ch_sheet.clip_composite_draw(
-        frame_x_on_sheet, 0, frame_w_orig, frame_h_orig,  # 원본 시트에서 자를 영역
-        0, flip_option,  # 회전 및 뒤집기
-        x, y, new_width, new_height  # 화면에 그릴 위치와 크기
+    # 5-2. 선택된 이미지와 옵션으로 그리기
+    # composite_draw(각도, 뒤집기, 화면x, 화면y, 화면너비, 화면높이)
+    image_to_draw.composite_draw(
+        0, flip_option,           # 회전 및 뒤집기
+        x, y, new_width, new_height # 화면에 그릴 위치와 크기
     )
 
     update_canvas()
