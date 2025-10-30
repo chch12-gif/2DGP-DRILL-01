@@ -1,40 +1,59 @@
 from pico2d import *
 
-# Boy 클래스 정의
-class Boy:
-    def __init__(self):
-        self.x = 400
-        self.y = 90
-        self.frame = 0
-        self.dir = 0  # -1: 왼쪽, 1: 오른쪽, 0: 정지
-        self.image_stay = load_image('stay.jpg')
-        self.image_run = load_image('run.jpg')
 
-    def update(self):
-        if self.dir != 0:
-            self.x += self.dir * 5
-            self.x = clamp(0, self.x, 800)
-            self.frame = (self.frame + 1) % 8
-        else:
-            self.frame = 0
+open_canvas()
 
-    def draw(self):
-        if self.dir == 0:
-            self.image_stay.draw(self.x, self.y)
-        else:
-            if self.dir == 1:
-                self.image_run.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
-            else:
-                self.image_run.clip_composite_draw(self.frame * 100, 0, 100, 100, 0, 'h', self.x, self.y, 100, 100)
+ch = load_image('character.png')
+x = 400
+y = ch.h // 2  # 캐릭터의 바닥이 화면 바닥에 오도록 y좌표 설정
+speed = 5      # 캐릭터 이동 속도
 
-    def handle_event(self, event):
-        if event.type == SDL_KEYDOWN:
+dir_x = 0  # 수평 방향 (기존 dir 변수 -> dir_x로 변경)
+dir_y = 0  # 수직 방향 (새로 추가)
+
+running = True # 게임 루프 실행 여부
+
+# 2. 게임 루프
+while running:
+    # 3. 이벤트 처리 (입력)
+    events = get_events()
+    for event in events:
+        # 창 닫기 버튼을 눌렀을 때
+        if event.type == SDL_QUIT:
+            running = False
+        # 키보드 키가 눌렸을 때
+        elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
-                self.dir += 1
+                dir_x += 1
             elif event.key == SDLK_LEFT:
-                self.dir -= 1
+                dir_x -= 1
+            elif event.key == SDLK_UP:    # ◀◀ 새로 추가
+                dir_y += 1
+            elif event.key == SDLK_DOWN:  # ◀◀ 새로 추가
+                dir_y -= 1
+            elif event.key == SDLK_ESCAPE: # ESC 키로 종료
+                running = False
+        # 키보드 키에서 손을 뗐을 때
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
-                self.dir -= 1
+                dir_x -= 1
             elif event.key == SDLK_LEFT:
-                self.dir += 1
+                dir_x += 1
+            elif event.key == SDLK_UP:    # ◀◀ 새로 추가
+                dir_y -= 1
+            elif event.key == SDLK_DOWN:  # ◀◀ 새로 추가
+                dir_y += 1
+
+    # 4. 논리 계산 (캐릭터 위치 업데이트)
+    x += dir_x * speed  # ◀◀ dir_x 사용
+    y += dir_y * speed  # ◀◀ y 좌표 업데이트 추가
+
+    # 5. 그리기 (렌더링)
+    clear_canvas()   # 배경 지우기
+    ch.draw(x, y)    # 캐릭터 그리기
+    update_canvas()  # 화면에 최종 출력
+
+    delay(0.01)      # 아주 잠깐 대기
+
+# 6. 종료
+close_canvas()
