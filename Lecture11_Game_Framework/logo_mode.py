@@ -34,3 +34,7 @@ def handle_events():
     events = get_events()
     #no nothing
 
+def puase():
+    pass
+def resume():
+    pass

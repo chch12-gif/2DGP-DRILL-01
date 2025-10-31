@@ -1,7 +1,10 @@
 from pico2d import *
 import game_framework
+import game_world
 import logo_mode
 import play_mode
+import pannel
+
 image = None
 
 logo_start_time = 0
@@ -13,7 +16,7 @@ def init():
      pass
 
 def finish():
-    global image
+    game_world.remove_object(pannel)
     del image
 
 
@@ -23,6 +26,7 @@ def update():
 
 def draw():
     clear_canvas()
+    game_world.render()
     image.draw(400, 300)
     update_canvas()
 

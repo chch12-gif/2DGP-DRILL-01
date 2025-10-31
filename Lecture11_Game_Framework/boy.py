@@ -134,6 +134,8 @@ class Boy:
             }
         )
 
+
+
     def update(self):
         self.state_machine.update()
 

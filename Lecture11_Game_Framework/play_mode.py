@@ -48,4 +48,12 @@ while running:
     delay(0.01)
 
     finish()
+
+
+    def puase():
+        pass
+
+
+    def resume():
+        pass
 close_canvas()
