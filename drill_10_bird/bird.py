@@ -26,4 +26,5 @@ class Bird:
         if Bird.sprite_sheet is None:
             Bird.sprite_sheet = load_image('bird_animation.png')
 
-            
+            self.x = random.randint(100, CANVAS_W - 100)
+            self.y = random.randint(400, 650)
