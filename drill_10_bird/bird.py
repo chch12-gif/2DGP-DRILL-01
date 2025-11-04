@@ -52,5 +52,8 @@ class Bird:
         elif self.x < padding:
             self.x = padding
             self.dir = 1
-            
+
+    def draw(self):
+        frame_x = self.frame % SPRITE_COLS
+        frame_y = self.frame // SPRITE_COLS
 
