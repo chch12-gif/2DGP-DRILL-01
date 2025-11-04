@@ -43,4 +43,13 @@ class Bird:
             self.frame_timer = 0.0
 
         self.x += self.dir * self.speed * dt
-        
+
+        padding = BIRD_W // 2
+        if self.x > CANVAS_W - padding:
+            self.x = CANVAS_W - padding
+            self.dir = -1
+
+        elif self.x < padding:
+            self.x = padding
+            self.dir = 1
+
