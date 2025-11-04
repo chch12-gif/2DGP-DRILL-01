@@ -71,5 +71,7 @@ class Bird:
             BIRD_W, BIRD_H
         )
 
-        
+open _canvas(CANVAS_W, CANVAS_H)
+
+
 
