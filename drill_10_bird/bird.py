@@ -78,3 +78,8 @@ birds = [Bird() for _ in range(10)]
 game_running = True
 prev_time = time.time()
 
+while game_running:
+    now_time = time.time()
+    dt = now_time - prev_time
+    prev_time = now_time
+
