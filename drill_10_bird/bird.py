@@ -28,3 +28,5 @@ class Bird:
 
             self.x = random.randint(100, CANVAS_W - 100)
             self.y = random.randint(400, 650)
+
+            self.dir = random.choice([-1, 1])
