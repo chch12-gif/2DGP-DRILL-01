@@ -60,5 +60,9 @@ class Bird:
         clip_l = frame_x * BIRD_W
         clip_b = (SPRITE_ROWS - 1, frame_y) * BIRD_H
 
+        flip_dir = ''
+        if self.dir == -1:
+            flip_dir = 'h'
+
         
 
