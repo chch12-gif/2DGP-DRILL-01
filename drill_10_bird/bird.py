@@ -21,3 +21,9 @@ TOTAL_FRAMES = 14
 
 class Bird:
     sprite_sheet = None
+
+    def __init__(self):
+        if Bird.sprite_sheet is None:
+            Bird.sprite_sheet = load_image('bird_animation.png')
+
+            
