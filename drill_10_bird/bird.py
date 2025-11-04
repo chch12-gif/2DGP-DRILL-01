@@ -57,3 +57,6 @@ class Bird:
         frame_x = self.frame % SPRITE_COLS
         frame_y = self.frame // SPRITE_COLS
 
+        clip_l = frame_x * BIRD_W
+        clip_b = (SPRITE_ROWS - 1)
+
