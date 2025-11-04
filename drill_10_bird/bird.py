@@ -35,4 +35,9 @@ class Bird:
 
             self.frame = random.randint(0, TOTAL_FRAMES - 1)
             self.frame_timer = 0.0
-            
+
+    def update(self, dt):
+        self.frame_timer += dt
+        if self.frame_timer >= TIME_PER_FRAME:
+            self.frame = (self.frame + 1) % TOTAL_FRAMES
+            self.frame_timer = 0.0
