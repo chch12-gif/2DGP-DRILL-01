@@ -52,4 +52,5 @@ class Bird:
         elif self.x < padding:
             self.x = padding
             self.dir = 1
+            
 
