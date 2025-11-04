@@ -18,3 +18,6 @@ TIME_PER_FRAME = 1.0 / FRAMES_PER_SEC
 SPRITE_COLS = 5
 SPRITE_ROWS = 3
 TOTAL_FRAMES = 14
+
+class Bird:
+    sprite_sheet = None
