@@ -75,3 +75,6 @@ open _canvas(CANVAS_W, CANVAS_H)
 
 birds = [Bird() for _ in range(10)]
 
+game_running = True
+prev_time = time.time()
+
