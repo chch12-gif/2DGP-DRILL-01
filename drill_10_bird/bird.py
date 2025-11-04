@@ -71,7 +71,7 @@ class Bird:
             BIRD_W, BIRD_H
         )
 
-open _canvas(CANVAS_W, CANVAS_H)
+open_canvas(CANVAS_W, CANVAS_H)
 
 birds = [Bird() for _ in range(10)]
 
@@ -93,5 +93,12 @@ while game_running:
 
     for bird in birds:
         bird.update(dt)
-        
+
+        clear_canvas()
+        for bird in birds:
+            bird.draw()
+        update_canvas()
+
+close_canvas()
+
 
