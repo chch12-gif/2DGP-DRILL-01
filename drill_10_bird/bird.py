@@ -26,15 +26,12 @@ class Bird:
         if Bird.sprite_sheet is None:
             Bird.sprite_sheet = load_image('bird_animation.png')
 
-            self.x = random.randint(100, CANVAS_W - 100)
-            self.y = random.randint(400, 650)
-
-            self.dir = random.choice([-1, 1])
-
-            self.speed = BIRD_SPEED_PPS
-
-            self.frame = random.randint(0, TOTAL_FRAMES - 1)
-            self.frame_timer = 0.0
+        self.x = random.randint(100, CANVAS_W - 100)
+        self.y = random.randint(400, 650)
+        self.dir = random.choice([-1, 1])
+        self.speed = BIRD_SPEED_PPS
+        self.frame = random.randint(0, TOTAL_FRAMES - 1)
+        self.frame_timer = 0.0
 
     def update(self, dt):
         self.frame_timer += dt
@@ -58,7 +55,7 @@ class Bird:
         frame_y = self.frame // SPRITE_COLS
 
         clip_l = frame_x * BIRD_W
-        clip_b = (SPRITE_ROWS - 1, frame_y) * BIRD_H
+        clip_b = (SPRITE_ROWS - 1 - frame_y) * BIRD_H
 
         flip_dir = ''
         if self.dir == -1:
@@ -94,10 +91,10 @@ while game_running:
     for bird in birds:
         bird.update(dt)
 
-        clear_canvas()
-        for bird in birds:
-            bird.draw()
-        update_canvas()
+    clear_canvas()
+    for bird in birds:
+        bird.draw()
+    update_canvas()
 
 close_canvas()
 
