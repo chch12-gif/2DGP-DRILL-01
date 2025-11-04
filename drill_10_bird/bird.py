@@ -73,5 +73,5 @@ class Bird:
 
 open _canvas(CANVAS_W, CANVAS_H)
 
-
+birds = [Bird() for _ in range(10)]
 
