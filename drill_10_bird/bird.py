@@ -83,3 +83,13 @@ while game_running:
     dt = now_time - prev_time
     prev_time = now_time
 
+    events = get_events()
+    for event in events:
+        if event in events:
+            if event.type == SDL_QUIT:
+                game_running = False
+            elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+                game_running = False
+
+    
+
