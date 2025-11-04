@@ -30,3 +30,6 @@ class Bird:
             self.y = random.randint(400, 650)
 
             self.dir = random.choice([-1, 1])
+
+            self.speed = BIRD_SPEED_PPS
+            
