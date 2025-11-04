@@ -64,5 +64,12 @@ class Bird:
         if self.dir == -1:
             flip_dir = 'h'
 
+        self.sprite_sheet.clip_composite_draw(
+            clip_l, clip_b, BIRD_W, BIRD_H,
+            0, flip_dir,
+            self.x, self.y,
+            BIRD_W, BIRD_H
+        )
+
         
 
