@@ -91,5 +91,7 @@ while game_running:
             elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                 game_running = False
 
-    
+    for bird in birds:
+        bird.update(dt)
+        
 
