@@ -32,4 +32,7 @@ class Bird:
             self.dir = random.choice([-1, 1])
 
             self.speed = BIRD_SPEED_PPS
+
+            self.frame = random.randint(0, TOTAL_FRAMES - 1)
+            self.frame_timer = 0.0
             
