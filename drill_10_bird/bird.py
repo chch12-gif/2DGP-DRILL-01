@@ -41,3 +41,6 @@ class Bird:
         if self.frame_timer >= TIME_PER_FRAME:
             self.frame = (self.frame + 1) % TOTAL_FRAMES
             self.frame_timer = 0.0
+
+        self.x += self.dir * self.speed * dt
+        
