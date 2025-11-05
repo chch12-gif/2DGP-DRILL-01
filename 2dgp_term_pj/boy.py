@@ -10,8 +10,11 @@ ch_back = load_image('back.png')
 ch_run_1 = load_image('left_run.png')  # ◀◀ 새로 추가된 달리기 프레임 1
 ch_run_2 = load_image('left_run_2.png')  # ◀◀ 새로 추가된 달리기 프레임 2
 background = load_image('BACKGROUND.PNG')
-
+monalisa_art = load_image('pic_1.png')
 scale = 0.3  # ◀◀ 크기 비율
+
+mona_w = 100 # 그림의 새 너비 (예: 100픽셀)
+mona_h = 150 # 그림의 새 높이 (예: 150픽셀)
 
 # '정면' 이미지를 기준으로 크기 계산
 frame_w_orig = ch_front.w
@@ -84,6 +87,7 @@ while running:
     clear_canvas()
     background.draw(400, 300)
 
+    monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)
 
     image_to_draw = ch_front  # 기본값: 정면 서있는 모습
     flip_option = ''  # 기본값: 뒤집지 않음
