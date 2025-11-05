@@ -1,7 +1,7 @@
 from pico2d import *
 
 # --- 1. 초기화 및 기본 설정 ---
-open_canvas()
+open_canvas(800, 600)
 
 # 1-1. 이미지 로드 (파일 5개 각각 로드)
 ch_front = load_image('character.png')
@@ -9,8 +9,8 @@ ch_side = load_image('side.png')
 ch_back = load_image('back.png')
 ch_run_1 = load_image('left_run.png')  # ◀◀ 새로 추가된 달리기 프레임 1
 ch_run_2 = load_image('left_run_2.png')  # ◀◀ 새로 추가된 달리기 프레임 2
+background = load_image('BACKGROUND.PNG')
 
-# 1-2. 크기 및 위치 설정
 scale = 0.8  # ◀◀ 크기 비율
 
 # '정면' 이미지를 기준으로 크기 계산
@@ -82,6 +82,8 @@ while running:
 
     # --- 5. 그리기 (렌더링) ---
     clear_canvas()
+    background.draw(400, 300)
+
 
     image_to_draw = ch_front  # 기본값: 정면 서있는 모습
     flip_option = ''  # 기본값: 뒤집지 않음
