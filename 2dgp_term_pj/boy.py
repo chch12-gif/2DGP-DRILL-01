@@ -11,7 +11,7 @@ ch_run_1 = load_image('left_run.png')  # ◀◀ 새로 추가된 달리기 프�
 ch_run_2 = load_image('left_run_2.png')  # ◀◀ 새로 추가된 달리기 프레임 2
 background = load_image('BACKGROUND.PNG')
 
-scale = 0.8  # ◀◀ 크기 비율
+scale = 0.3  # ◀◀ 크기 비율
 
 # '정면' 이미지를 기준으로 크기 계산
 frame_w_orig = ch_front.w
