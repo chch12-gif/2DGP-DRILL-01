@@ -1,7 +1,22 @@
 # main.py
 
 from pico2d import *
-from boy import Boy  # ◀◀ 'boy.py' 파일에서 'Boy' 클래스를 가져옵니다.
+from boy import Boy
+
+STATE_GAMEPLAY = 0
+STATE_VIEWING_ART = 1
+current_state = STATE_GAMEPLAY
+
+mona_x = 100
+mona_y = 500
+mona_w = 100
+mona_h = 150
+interaction_distance = 75
+
+def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
+    distance_sq = (a_x - b_x) ** 2 + (a_y - b_y) ** 2
+    return distance_sq < distance_threshold ** 2
+
 
 # --- 1. 초기화 ---
 open_canvas(800, 600)
@@ -12,8 +27,7 @@ player = Boy()
 # 1-2. 배경 및 사물 로드 (main.py가 관리)
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
-mona_w = 100
-mona_h = 150
+
 
 running = True
 
@@ -26,9 +40,7 @@ while running:
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-        else:
-            # ◀◀ 키 이벤트를 player 객체에게 전달
-            player.handle_event(event)
+        
 
             # 4. 논리 계산 (업데이트)
     player.update()
@@ -41,7 +53,7 @@ while running:
     monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)
 
     # 5-2. 플레이어 그리기
-    player.draw()  
+    player.draw()
 
     update_canvas()
     delay(0.01)
