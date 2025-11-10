@@ -72,15 +72,24 @@ class Boy:
         potential_x = self.x + self.dir_x * self.current_speed
         potential_y = self.y + self.dir_y * self.current_speed
 
-        if self.boundary_left <= potential_x <= self.boundary_right:
-            self.x = potential_x
         if self.boundary_bottom <= potential_y <= self.boundary_top:
             self.y = potential_y
+
+        if potential_x > self.boundary_right:
+            self.x = self.boundary_left
+            room_change_status = 'NEXT'
+        elif potential_x < self.boundary_left:
+            self.x = self.boundary_right
+            room_change_status = 'PREV'
+        else:
+            self.x = potential_x
 
         if self.running_state and (self.dir_x != 0 or self.dir_y != 0):
             self.animation_frame = int(get_time() * 10) % 2
         else:
             self.animation_frame = 0
+
+        return room_change_status
 
     # 4. 그리기 (매 프레임마다 화면에 그림)
     def draw(self):
