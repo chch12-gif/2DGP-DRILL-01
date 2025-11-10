@@ -13,6 +13,9 @@ mona_w = 100
 mona_h = 150
 interaction_distance = 75
 
+mona_large_w = int(800 * 0.8)
+mona_large_h = int(600 * 0.9)
+
 def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
     distance_sq = (a_x - b_x) ** 2 + (a_y - b_y) ** 2
     return distance_sq < distance_threshold ** 2
@@ -60,13 +63,13 @@ while running:
        # 5-1. 배경/사물 그리기
        background.draw(400, 300)
        monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
-       monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)
+       player.draw()
 
     # 5-2. 플레이어 그리기
-       player.draw()
+
     elif current_state == STATE_VIEWING_ART:
         background.draw(400, 300)
-        monalisa_art.draw(400, 300)
+        monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
 
     update_canvas()
     delay(0.01)
