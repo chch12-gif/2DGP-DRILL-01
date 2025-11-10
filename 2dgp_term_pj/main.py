@@ -89,11 +89,29 @@ while running:
         room_change_status = player.update()
 
         if room_change_status == 'NEXT':
-            current_room_index += 1
-            print(f"방 이동: {current_room_index}번 방")
+            current_state = STATE_FADING_OUT
+            transition_target_room = current_room_index + 1
+            transition_player_pos_x = player.boundary_left
+            fade_alpha = 0.0
+
         elif room_change_status == 'PREV':
-            current_room_index -= 1
-            print(f"방 이동: {current_room_index}번 방")
+            current_state = STATE_FADING_OUT
+            transition_target_room = current_room_index - 1
+            transition_player_pos_x = player.boundary_right
+            fade_alpha = 0.0
+    elif current_state == STATE_FADING_OUT:
+        fade_alpha += 0.05
+        if fade_alpha >= 1.0:
+            fade_alpha = 1.0
+            current_room_index = transition_target_room
+            player.x = transition_player_pos_x
+
+            current_state = STATE_FADING_IN
+    elif current_state == STATE_FADING_IN:
+        fade_alpha -= 0.05
+        if fade_alpha <= 0.0:
+            fade_alpha = 0.0
+            current_state = STATE_GAMEPLAY
 
     # 5. 그리기 (렌더링)
     clear_canvas()
