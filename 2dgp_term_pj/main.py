@@ -5,6 +5,8 @@ from boy import Boy
 
 STATE_GAMEPLAY = 0
 STATE_VIEWING_ART = 1
+STATE_FADING_OUT = 2
+STATE_FADING_IN = 3
 current_state = STATE_GAMEPLAY
 
 ART_NONE = 0
