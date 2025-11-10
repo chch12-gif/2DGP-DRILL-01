@@ -32,9 +32,12 @@ player = Boy()
 # 1-2. 배경 및 사물 로드
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
-
-
+player = Boy()
+background = load_image('BACKGROUND.')
+monalisa_art = load_image('pic_1.png')
 running = True
+
+
 
 # --- 2. 게임 루프 ---
 while running:
@@ -47,10 +50,10 @@ while running:
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_e:
             if current_state == STATE_GAMEPLAY:
-                if check_collision(player.x, player.y, mona_x, mona_y, interaction_distance):
+                if current_room_index == 0 and check_collision(player.x, player.y, mona_x, mona_y,interaction_distance):
                     current_state = STATE_VIEWING_ART
-            elif current_state == STATE_VIEWING_ART:
-                current_state = STATE_GAMEPLAY
+                elif current_state == STATE_VIEWING_ART:
+                    current_state = STATE_GAMEPLAY
         else:
             if current_state == STATE_GAMEPLAY:
                 player.handle_event(event)
