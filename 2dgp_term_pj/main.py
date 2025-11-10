@@ -62,7 +62,7 @@ running = True
 
 # --- 2. 게임 루프 ---
 while running:
-    # 3. 이벤트 처리
+# 3. 이벤트 처리
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -84,9 +84,11 @@ while running:
             elif current_state == STATE_VIEWING_ART:
                 current_state = STATE_GAMEPLAY
                 currently_viewing_art = ART_NONE
-        else:
-            if current_state == STATE_GAMEPLAY:
-                player.handle_event(event)
+
+        elif current_state != STATE_VIEWING_ART:
+            player.handle_event(event)
+
+
  # 4. 논리 계산 (업데이트)
     if current_state == STATE_GAMEPLAY:
         room_change_status = player.update()
@@ -97,8 +99,7 @@ while running:
             transition_player_pos_x = player.boundary_left
             fade_alpha = 0.0
 
-            player.dir_x = 0
-            player.dir_y
+
 
         elif room_change_status == 'PREV':
             current_state = STATE_FADING_OUT
@@ -106,8 +107,7 @@ while running:
             transition_player_pos_x = player.boundary_right
             fade_alpha = 0.0
 
-            player.dir_x = 0
-            player.dir_y = 0
+
 
 
     elif current_state == STATE_FADING_OUT:

@@ -67,29 +67,33 @@ class Boy:
 
     # 3. 논리 업데이트 (매 프레임마다 상태 계산)
     def update(self):
-        room_change_status = 'NONE'
 
-        potential_x = self.x + self.dir_x * self.current_speed
         potential_y = self.y + self.dir_y * self.current_speed
-
         if self.boundary_bottom <= potential_y <= self.boundary_top:
             self.y = potential_y
 
-        if potential_x > self.boundary_right:
-            self.x = self.boundary_left
-            room_change_status = 'NEXT'
-        elif potential_x < self.boundary_left:
+        potential_x = self.x + self.dir_x * self.current_speed
+
+        if potential_x > self.boundary_right and self.dir_x > 0:
             self.x = self.boundary_right
-            room_change_status = 'PREV'
-        else:
-            self.x = potential_x
+            return 'NEXT'
+
+        elif potential_x < self.boundary_left and self.dir_x < 0:
+            self.x = self.boundary_left
+            return 'PREV'
+        self.x = potential_x
+
+        if self.x < self.boundary_left:
+            self.x = self.boundary_left
+        elif self.x > self.boundary_right:
+            self.x = self.boundary_right
 
         if self.running_state and (self.dir_x != 0 or self.dir_y != 0):
             self.animation_frame = int(get_time() * 10) % 2
         else:
             self.animation_frame = 0
 
-        return room_change_status
+        return 'NONE'
 
     # 4. 그리기 (매 프레임마다 화면에 그림)
     def draw(self):
