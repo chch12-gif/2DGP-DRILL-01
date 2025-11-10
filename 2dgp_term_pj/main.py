@@ -94,11 +94,19 @@ while running:
             transition_player_pos_x = player.boundary_left
             fade_alpha = 0.0
 
+            player.dir_x = 0
+            player.dir_y
+
         elif room_change_status == 'PREV':
             current_state = STATE_FADING_OUT
             transition_target_room = current_room_index - 1
             transition_player_pos_x = player.boundary_right
             fade_alpha = 0.0
+
+            player.dir_x = 0
+            player.dir_y = 0
+
+
     elif current_state == STATE_FADING_OUT:
         fade_alpha += 0.05
         if fade_alpha >= 1.0:
