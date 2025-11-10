@@ -19,10 +19,11 @@ mona_y = 500
 mona_w = 100
 mona_h = 150
 
-starry_night_x = 700
+
 starry_night_y = 500
 starry_night_w = 100
 starry_night_h = 150
+starry_night_x = mona_x + (mona_w // 2) + (starry_night_w // 2) + 100
 
 interaction_distance = 75
 
