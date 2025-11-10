@@ -56,12 +56,17 @@ while running:
     # 5. 그리기 (렌더링)
     clear_canvas()
 
-    # 5-1. 배경/사물 그리기
-    background.draw(400, 300)
-    monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)
+    if current_state == STATE_GAMEPLAY:
+       # 5-1. 배경/사물 그리기
+       background.draw(400, 300)
+       monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+       monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)
 
     # 5-2. 플레이어 그리기
-    player.draw()
+       player.draw()
+    elif current_state == STATE_VIEWING_ART:
+        background.draw(400, 300)
+        monalisa_art.draw(400, 300)
 
     update_canvas()
     delay(0.01)
