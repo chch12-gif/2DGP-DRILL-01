@@ -33,7 +33,7 @@ player = Boy()
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 player = Boy()
-background = load_image('BACKGROUND.')
+background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 running = True
 
@@ -67,7 +67,11 @@ while running:
     if current_state == STATE_GAMEPLAY:
        # 5-1. 배경/사물 그리기
        background.draw(400, 300)
-       monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+       if current_room_index == 0:
+           monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+       elif current_room_index == 1:
+           pass
+
        player.draw()
 
     # 5-2. 플레이어 그리기
