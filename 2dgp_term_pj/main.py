@@ -116,16 +116,27 @@ while running:
     # 5. 그리기 (렌더링)
     clear_canvas()
 
-    if current_state == STATE_GAMEPLAY:
+    if current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
        # 5-1. 배경/사물 그리기
        background.draw(400, 300)
+
        if current_room_index == 0:
            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
-       elif current_room_index == 1:
-           pass
+
+
 
        player.draw()
+
+    elif current_state == STATE_FADING_IN:
+        background.draw(400, 300)
+        if current_room_index == 0:
+            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+        elif current_room_index == 1:
+            pass
+
+        player.draw()
 
     # 5-2. 플레이어 그리기
 
@@ -135,6 +146,9 @@ while running:
             monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
         elif currently_viewing_art == ART_STARRY_NIGHT:
             starry_night_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+    if current_state == STATE_FADING_OUT or current_state == STATE_FADING_IN:
+        black_pixel.opacify(fade_alpha)
+        black_pixel.draw(400, 300, 800, 600)
 
     update_canvas()
     delay(0.01)
