@@ -3,11 +3,12 @@
 from pico2d import *
 from boy import Boy
 
-STATE_GAMEPLAY = 0
-STATE_VIEWING_ART = 1
-STATE_FADING_OUT = 2
-STATE_FADING_IN = 3
-STATE_POST_FADE_DELAY = 4
+STATE_TITLE = 0
+STATE_GAMEPLAY = 1
+STATE_VIEWING_ART = 2
+STATE_FADING_OUT = 3
+STATE_FADING_IN = 4
+STATE_POST_FADE_DELAY = 5
 current_state = STATE_GAMEPLAY
 
 ART_NONE = 0
@@ -55,6 +56,7 @@ background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 starry_night_art = load_image('pic_2.png')
 black_pixel = load_image('black_pixel.png')
+title_screen_image = load_image('title.png')
 
 running = True
 
@@ -70,17 +72,19 @@ while running:
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
 
+        elif current_state == STATE_TITLE:
+             if event.type == SDL_KEYDOWN:
+                 current_state = STATE_GAMEPLAY
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_e:
             if current_state == STATE_GAMEPLAY:
-                if current_room_index == 0 and check_collision(player.x, player.y, mona_x, mona_y, interaction_distance):
-                    current_state = STATE_VIEWING_ART
-                    currently_viewing_art = ART_MONALISA
-
-                elif current_room_index == 0 and check_collision(player.x, player.y, starry_night_x, starry_night_y, interaction_distance):
-                    current_state = STATE_VIEWING_ART
-                    currently_viewing_art = ART_STARRY_NIGHT
-
+                if current_room_index == 0:
+                    if check_collision(player.x, player.y, mona_x, mona_y, interaction_distance):
+                        current_state = STATE_VIEWING_ART
+                        currently_viewing_art = ART_MONALISA
+                    elif check_collision(player.x, player.y, starry_night_x, starry_night_y, interaction_distance):
+                        current_state = STATE_VIEWING_ART
+                        currently_viewing_art = ART_STARRY_NIGHT
             elif current_state == STATE_VIEWING_ART:
                 current_state = STATE_GAMEPLAY
                 currently_viewing_art = ART_NONE
@@ -134,17 +138,20 @@ while running:
     # 5. 그리기 (렌더링)
     clear_canvas()
 
-    if current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
-       # 5-1. 배경/사물 그리기
-       background.draw(400, 300)
+    if current_state == STATE_TITLE:
+        title_screen_image.draw(400, 300)
 
-       if current_room_index == 0:
-           monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
-           starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+    elif current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
+        background.draw(400, 300)
+
+        if current_room_index == 0:
+            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+        elif current_room_index == 1:
+            pass
 
 
-
-       player.draw()
+        player.draw()
 
     elif current_state == STATE_FADING_IN or current_state == STATE_POST_FADE_DELAY:
         background.draw(400, 300)
