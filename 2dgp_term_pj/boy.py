@@ -67,6 +67,8 @@ class Boy:
 
     # 3. 논리 업데이트 (매 프레임마다 상태 계산)
     def update(self):
+        room_change_status = 'NONE'
+
         potential_x = self.x + self.dir_x * self.current_speed
         potential_y = self.y + self.dir_y * self.current_speed
 
