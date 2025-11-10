@@ -7,6 +7,7 @@ STATE_GAMEPLAY = 0
 STATE_VIEWING_ART = 1
 STATE_FADING_OUT = 2
 STATE_FADING_IN = 3
+STATE_POST_FADE_DELAY = 4
 current_state = STATE_GAMEPLAY
 
 ART_NONE = 0
@@ -39,6 +40,8 @@ def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
 fade_alpha = 0.0
 transition_target_room = 0
 transition_player_pos_x = 0
+post_fade_delay_timer = 0.0
+POST_FADE_DELAY_TIME = 0.3
 
 # --- 1. 초기화 ---
 open_canvas(800, 600)
@@ -115,11 +118,18 @@ while running:
             player.x = transition_player_pos_x
 
             current_state = STATE_FADING_IN
+
     elif current_state == STATE_FADING_IN:
         fade_alpha -= 0.05
         if fade_alpha <= 0.0:
             fade_alpha = 0.0
+            current_state = STATE_POST_FADE_DELAY
+            post_fade_delay_timer = get_time()
+
+    elif current_state == STATE_POST_FADE_DELAY:
+        if get_time() - post_fade_delay_timer > POST_FADE_DELAY_TIME:
             current_state = STATE_GAMEPLAY
+
 
     # 5. 그리기 (렌더링)
     clear_canvas()
@@ -136,7 +146,7 @@ while running:
 
        player.draw()
 
-    elif current_state == STATE_FADING_IN:
+    elif current_state == STATE_FADING_IN or current_state == STATE_POST_FADE_DELAY:
         background.draw(400, 300)
         if current_room_index == 0:
             monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
