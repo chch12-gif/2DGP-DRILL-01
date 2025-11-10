@@ -139,7 +139,7 @@ while running:
     clear_canvas()
 
     if current_state == STATE_TITLE:
-        title_screen_image.draw(400, 300)
+        title_screen_image.draw(400, 300, 800, 600)
 
     elif current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
         background.draw(400, 300)
