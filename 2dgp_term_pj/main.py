@@ -7,6 +7,11 @@ STATE_GAMEPLAY = 0
 STATE_VIEWING_ART = 1
 current_state = STATE_GAMEPLAY
 
+ART_NONE = 0
+ART_MONALISA = 1
+ART_STARRY_NIGHT = 2
+currently_viewing_art = ART_NONE
+
 current_room_index = 0
 
 mona_x = 100
