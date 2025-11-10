@@ -10,11 +10,11 @@ class Boy:
         self.ch_front = load_image('character.png')
         self.ch_side = load_image('side.png')
         self.ch_back = load_image('back.png')
-        self.ch_run_1 = load_image('run_frame_1.png')
-        self.ch_run_2 = load_image('run_frame_2.png')
+        self.ch_run_1 = load_image('left_run.png')
+        self.ch_run_2 = load_image('left_run_2.png')
 
         # 크기 설정
-        self.scale = 0.5
+        self.scale = 0.3
         self.frame_w_orig = self.ch_front.w
         self.frame_h_orig = self.ch_front.h
         self.new_width = self.frame_w_orig * self.scale

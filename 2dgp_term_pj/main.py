@@ -7,11 +7,11 @@ from boy import Boy  # ◀◀ 'boy.py' 파일에서 'Boy' 클래스를 가져옵
 open_canvas(800, 600)
 
 # 1-1. 게임 월드 객체 생성
-player = Boy()  # ◀◀ Boy 클래스를 이용해 'player' 객체를 생성합니다.
+player = Boy()
 
 # 1-2. 배경 및 사물 로드 (main.py가 관리)
-background = load_image('BACKGROUND.jpg')
-monalisa_art = load_image('monalisa.png')  # monalisa.png로 저장했다고 가정
+background = load_image('BACKGROUND.png')
+monalisa_art = load_image('pic_1.png')
 mona_w = 100
 mona_h = 150
 
@@ -31,17 +31,17 @@ while running:
             player.handle_event(event)
 
             # 4. 논리 계산 (업데이트)
-    player.update()  # ◀◀ player 객체의 상태를 업데이트
+    player.update()
 
     # 5. 그리기 (렌더링)
     clear_canvas()
 
     # 5-1. 배경/사물 그리기
     background.draw(400, 300)
-    monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)  # ◀ 모나리자 그리기
+    monalisa_art.composite_draw(0, '', 100, 500, mona_w, mona_h)
 
     # 5-2. 플레이어 그리기
-    player.draw()  # ◀◀ player 객체를 화면에 그리기
+    player.draw()  
 
     update_canvas()
     delay(0.01)
