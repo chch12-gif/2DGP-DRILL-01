@@ -7,6 +7,8 @@ STATE_GAMEPLAY = 0
 STATE_VIEWING_ART = 1
 current_state = STATE_GAMEPLAY
 
+current_room_index = 0
+
 mona_x = 100
 mona_y = 500
 mona_w = 100
