@@ -27,7 +27,7 @@ open_canvas(800, 600)
 # 1-1. 게임 월드 객체 생성
 player = Boy()
 
-# 1-2. 배경 및 사물 로드 (main.py가 관리)
+# 1-2. 배경 및 사물 로드
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 
