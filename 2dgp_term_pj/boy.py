@@ -20,6 +20,11 @@ class Boy:
         self.new_width = self.frame_w_orig * self.scale
         self.new_height = self.frame_h_orig * self.scale
 
+        self.boundary_bottom = 260
+        self.boundary_top = 440
+
+        self.boundary_left = 0 + self.new_width // 2
+        self.boundary_right = 800 - self.new_width // 2
         # 위치 및 속도 설정
         self.x = 400
         self.y = 300  # 바닥 타일 중앙(y=300)으로 설정
@@ -62,8 +67,13 @@ class Boy:
 
     # 3. 논리 업데이트 (매 프레임마다 상태 계산)
     def update(self):
-        self.x += self.dir_x * self.current_speed
-        self.y += self.dir_y * self.current_speed
+        potential_x = self.x + self.dir_x * self.current_speed
+        potential_y = self.y + self.dir_y * self.current_speed
+
+        if self.boundary_left <= potential_x <= self.boundary_right:
+            self.x = potential_x
+        if self.boundary_bottom <= potential_y <= self.boundary_top:
+            self.y = potential_y
 
         if self.running_state and (self.dir_x != 0 or self.dir_y != 0):
             self.animation_frame = int(get_time() * 10) % 2
