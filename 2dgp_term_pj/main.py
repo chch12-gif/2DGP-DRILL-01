@@ -52,7 +52,7 @@ while running:
             if current_state == STATE_GAMEPLAY:
                 if current_room_index == 0 and check_collision(player.x, player.y, mona_x, mona_y,interaction_distance):
                     current_state = STATE_VIEWING_ART
-                elif current_state == STATE_VIEWING_ART:
+            elif current_state == STATE_VIEWING_ART:
                     current_state = STATE_GAMEPLAY
         else:
             if current_state == STATE_GAMEPLAY:
