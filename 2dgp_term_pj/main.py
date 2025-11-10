@@ -13,6 +13,12 @@ mona_x = 100
 mona_y = 500
 mona_w = 100
 mona_h = 150
+
+starry_night_x = 700
+starry_night_y = 500
+starry_night_w = 100
+starry_night_h = 150
+
 interaction_distance = 75
 
 mona_large_w = int(800 * 0.8)
@@ -26,15 +32,15 @@ def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
 # --- 1. 초기화 ---
 open_canvas(800, 600)
 
+
 # 1-1. 게임 월드 객체 생성
 player = Boy()
 
 # 1-2. 배경 및 사물 로드
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
-player = Boy()
-background = load_image('BACKGROUND.png')
-monalisa_art = load_image('pic_1.png')
+starry_night_art = load_image('pic_2.png')
+
 running = True
 
 
