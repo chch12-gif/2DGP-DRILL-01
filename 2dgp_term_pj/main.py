@@ -50,7 +50,8 @@ while running:
             if current_state == STATE_GAMEPLAY:
                 player.handle_event(event)
             # 4. 논리 계산 (업데이트)
-    player.update()
+    if current_state == STATE_GAMEPLAY:
+        player.update()
 
     # 5. 그리기 (렌더링)
     clear_canvas()
