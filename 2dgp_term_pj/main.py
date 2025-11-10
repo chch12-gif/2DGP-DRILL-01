@@ -142,6 +142,10 @@ while running:
     if current_state == STATE_TITLE:
         title_screen_image.draw(400, 300, 800, 600)
 
+        title_font.draw(180, 100, "press any key to start game", (255, 255, 255))
+
+
+
     elif current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
         background.draw(400, 300)
 
