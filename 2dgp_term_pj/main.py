@@ -61,14 +61,23 @@ while running:
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_e:
             if current_state == STATE_GAMEPLAY:
-                if current_room_index == 0 and check_collision(player.x, player.y, mona_x, mona_y,interaction_distance):
-                    current_state = STATE_VIEWING_ART
+                if current_room_index == 0:
+
+                    if check_collision(player.x, player.y, mona_x, mona_y, interaction_distance):
+                        current_state = STATE_VIEWING_ART
+                        currently_viewing_art = ART_MONALISA
+
+                    elif check_collision(player.x, player.y, starry_night_x, starry_night_y, interaction_distance):
+                        current_state = STATE_VIEWING_ART
+                        currently_viewing_art = ART_STARRY_NIGHT
+
             elif current_state == STATE_VIEWING_ART:
-                    current_state = STATE_GAMEPLAY
+                current_state = STATE_GAMEPLAY
+                currently_viewing_art = ART_NONE
         else:
             if current_state == STATE_GAMEPLAY:
                 player.handle_event(event)
-            # 4. 논리 계산 (업데이트)
+ # 4. 논리 계산 (업데이트)
     if current_state == STATE_GAMEPLAY:
         room_change_status = player.update()
 
@@ -87,6 +96,7 @@ while running:
        background.draw(400, 300)
        if current_room_index == 0:
            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+           starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
        elif current_room_index == 1:
            pass
 
@@ -96,7 +106,10 @@ while running:
 
     elif current_state == STATE_VIEWING_ART:
         background.draw(400, 300)
-        monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+        if currently_viewing_art == ART_MONALISA:
+            monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+        elif currently_viewing_art == ART_STARRY_NIGHT:
+            starry_night_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
 
     update_canvas()
     delay(0.01)
