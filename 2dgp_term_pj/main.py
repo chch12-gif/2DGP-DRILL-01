@@ -57,6 +57,7 @@ monalisa_art = load_image('pic_1.png')
 starry_night_art = load_image('pic_2.png')
 black_pixel = load_image('black_pixel.png')
 title_screen_image = load_image('title.png')
+title_font = load_font('ariblk.ttf', 30)
 
 running = True
 
