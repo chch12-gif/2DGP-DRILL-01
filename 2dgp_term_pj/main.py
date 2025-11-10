@@ -59,7 +59,14 @@ while running:
                 player.handle_event(event)
             # 4. 논리 계산 (업데이트)
     if current_state == STATE_GAMEPLAY:
-        player.update()
+        room_change_status = player.update()
+
+        if room_change_status == 'NEXT':
+            current_room_index += 1
+            print(f"방 이동: {current_room_index}번 방")
+        elif room_change_status == 'PREV':
+            current_room_index -= 1
+            print(f"방 이동: {current_room_index}번 방")
 
     # 5. 그리기 (렌더링)
     clear_canvas()
