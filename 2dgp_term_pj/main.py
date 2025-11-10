@@ -51,6 +51,7 @@ player = Boy()
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 starry_night_art = load_image('pic_2.png')
+black_pixel = load_image('black_pixel.png')
 
 running = True
 
@@ -65,17 +66,17 @@ while running:
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
+
+
         elif event.type == SDL_KEYDOWN and event.key == SDLK_e:
             if current_state == STATE_GAMEPLAY:
-                if current_room_index == 0:
+                if current_room_index == 0 and check_collision(player.x, player.y, mona_x, mona_y, interaction_distance):
+                    current_state = STATE_VIEWING_ART
+                    currently_viewing_art = ART_MONALISA
 
-                    if check_collision(player.x, player.y, mona_x, mona_y, interaction_distance):
-                        current_state = STATE_VIEWING_ART
-                        currently_viewing_art = ART_MONALISA
-
-                    elif check_collision(player.x, player.y, starry_night_x, starry_night_y, interaction_distance):
-                        current_state = STATE_VIEWING_ART
-                        currently_viewing_art = ART_STARRY_NIGHT
+                elif current_room_index == 0 and check_collision(player.x, player.y, starry_night_x, starry_night_y, interaction_distance):
+                    current_state = STATE_VIEWING_ART
+                    currently_viewing_art = ART_STARRY_NIGHT
 
             elif current_state == STATE_VIEWING_ART:
                 current_state = STATE_GAMEPLAY
