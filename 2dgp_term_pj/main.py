@@ -14,6 +14,7 @@ current_state = STATE_TITLE
 ART_NONE = 0
 ART_MONALISA = 1
 ART_STARRY_NIGHT = 2
+ART_ISLAND = 3
 currently_viewing_art = ART_NONE
 
 current_room_index = 0
@@ -28,6 +29,14 @@ starry_night_y = 500
 starry_night_w = 100
 starry_night_h = 150
 starry_night_x = mona_x + (mona_w // 2) + (starry_night_w // 2) + 100
+
+
+island_x = starry_night_x + (starry_night_w // 2) + (100 // 2) + 100
+island_y = 500
+island_w = 100
+island_h = 150
+
+
 
 interaction_distance = 75
 
@@ -55,6 +64,7 @@ player = Boy()
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 starry_night_art = load_image('pic_2.png')
+island_art = load_image('pic_3.png')
 black_pixel = load_image('black_pixel.png')
 title_screen_image = load_image('title.png')
 title_font = load_font('ariblk.ttf', 30)
@@ -86,6 +96,9 @@ while running:
                     elif check_collision(player.x, player.y, starry_night_x, starry_night_y, interaction_distance):
                         current_state = STATE_VIEWING_ART
                         currently_viewing_art = ART_STARRY_NIGHT
+                    elif check_collision(player.x, player.y, island_x, island_y, interaction_distance):
+                        current_state = STATE_VIEWING_ART
+                        currently_viewing_art = ART_ISLAND
             elif current_state == STATE_VIEWING_ART:
                 current_state = STATE_GAMEPLAY
                 currently_viewing_art = ART_NONE
@@ -152,6 +165,7 @@ while running:
         if current_room_index == 0:
             monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
             starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+            island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
         elif current_room_index == 1:
             pass
 
@@ -176,6 +190,8 @@ while running:
             monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
         elif currently_viewing_art == ART_STARRY_NIGHT:
             starry_night_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+        elif currently_viewing_art == ART_ISLAND:
+            island_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
     if current_state == STATE_FADING_OUT or current_state == STATE_FADING_IN:
         black_pixel.opacify(fade_alpha)
         black_pixel.draw(400, 300, 800, 600)
