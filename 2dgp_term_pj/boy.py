@@ -4,7 +4,7 @@ from pico2d import *
 
 
 class Boy:
-    # 1. 초기화 (객체가 생성될 때 한 번 실행)
+
     def __init__(self):
         # 이미지 로드
         self.ch_front = load_image('character.png')
@@ -38,7 +38,7 @@ class Boy:
         self.running_state = False
         self.animation_frame = 0
 
-    # 2. 이벤트 처리 (main.py로부터 이벤트를 전달받음)
+
     def handle_event(self, event):
         if event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
@@ -65,7 +65,7 @@ class Boy:
                 self.running_state = False
                 self.current_speed = self.walk_speed
 
-    # 3. 논리 업데이트 (매 프레임마다 상태 계산)
+
     def update(self):
 
         potential_y = self.y + self.dir_y * self.current_speed
@@ -95,7 +95,7 @@ class Boy:
 
         return 'NONE'
 
-    # 4. 그리기 (매 프레임마다 화면에 그림)
+
     def draw(self):
         image_to_draw = self.ch_front
         flip_option = ''
