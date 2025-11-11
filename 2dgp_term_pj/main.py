@@ -209,6 +209,14 @@ while running:
             island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
             eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
 
+
+    def draw_ui_text():
+        if current_room_index == 0:
+            ui_font.draw(700, 570, f"{success_count} / {FINAL_SUCCESS_COUNT}", (255, 255, 255))
+        elif current_room_index == 1:
+            ui_font.draw(720, 570, "EXIT", (0, 255, 0))
+
+
     if current_state == STATE_TITLE:
        title_screen_image.draw(400, 300, 800, 600)
        title_font.draw(180, 100, "press any key to start game", (255, 255, 255))
@@ -216,52 +224,40 @@ while running:
     elif current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
        background.draw(400, 300)
        if current_room_index == 0:
-           draw_room_0_art()  # ◀◀ [호출] 여기서 사용
+           draw_room_0_art()
        elif current_room_index == 1:
            pass
+       draw_ui_text()
        player.draw()
 
     elif current_state == STATE_FADING_IN or current_state == STATE_POST_FADE_DELAY:
          background.draw(400, 300)
          if current_room_index == 0:
-             draw_room_0_art()  # ◀◀ [호출] 여기서 사용
+             draw_room_0_art()
          elif current_room_index == 1:
              pass
+         draw_ui_text()
          player.draw()
 
-
-    elif current_state == STATE_FADING_IN or current_state == STATE_POST_FADE_DELAY:
-        background.draw(400, 300)
-        if current_room_index == 0:
-            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
-            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
-            island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
-            eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
-        elif current_room_index == 1:
-            pass
-
-        player.draw()
 
     # 5-2. 플레이어 그리기
 
     elif current_state == STATE_VIEWING_ART:
         background.draw(400, 300)
+
+
         if currently_viewing_art == ART_MONALISA:
-
-
             if anomaly_type == ANOMALY_MONALISA_SMILE:
                 monalisa_smile_art.composite_draw(0, '', 400, 350, mona_large_w, mona_large_h)
             else:
                 monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
-
         elif currently_viewing_art == ART_STARRY_NIGHT:
             starry_night_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
-
         elif currently_viewing_art == ART_ISLAND:
             island_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
-
         elif currently_viewing_art == ART_EATING_PLANET:
             eating_planet_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+
     if current_state == STATE_FADING_OUT or current_state == STATE_FADING_IN:
         black_pixel.opacify(fade_alpha)
         black_pixel.draw(400, 300, 800, 600)
