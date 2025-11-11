@@ -17,26 +17,26 @@ ART_MONALISA = 1
 ART_STARRY_NIGHT = 2
 ART_ISLAND = 3
 ART_EATING_PLANET = 4
-ANOMALY_MONALISA_SMILE = 5
-
 currently_viewing_art = ART_NONE
+
+current_room_index = 0
+success_count = 0
+FINAL_SUCCESS_COUNT = 7
 
 is_anomaly_present = False
 anomaly_type = 0
 
-current_room_index = 0
+ANOMALY_MONALISA_SMILE = 1 #15개 이상현상까지 사용 예정
 
 mona_x = 100
 mona_y = 500
 mona_w = 100
 mona_h = 150
 
-
 starry_night_y = 500
 starry_night_w = 100
 starry_night_h = 150
 starry_night_x = mona_x + (mona_w // 2) + (starry_night_w // 2) + 100
-
 
 island_x = starry_night_x + (starry_night_w // 2) + (100 // 2) + 100
 island_y = 500
@@ -51,9 +51,14 @@ eating_planet_h = 150
 
 
 interaction_distance = 75
-
 mona_large_w = int(800 * 0.8)
 mona_large_h = int(600 * 0.9)
+
+fade_alpha = 0.0
+transition_target_room = 0
+transition_player_pos_x = 0
+post_fade_delay_timer = 0.0
+POST_FADE_DELAY_TIME = 0.3
 
 def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
     distance_sq = (a_x - b_x) ** 2 + (a_y - b_y) ** 2
@@ -73,17 +78,8 @@ def setup_new_room():
         print("DEBUG: No Anomaly.")
 
 
-fade_alpha = 0.0
-transition_target_room = 0
-transition_player_pos_x = 0
-post_fade_delay_timer = 0.0
-POST_FADE_DELAY_TIME = 0.3
-
 # --- 1. 초기화 ---
 open_canvas(800, 600)
-
-
-# 1-1. 게임 월드 객체 생성
 player = Boy()
 
 # 1-2. 배경 및 사물 로드
@@ -96,10 +92,10 @@ eating_planet_art = load_image('pic_4.png')
 black_pixel = load_image('black_pixel.png')
 title_screen_image = load_image('title.png')
 title_font = load_font('ariblk.ttf', 30)
+ui_font = load_font('Arial.ttf', 24)
 
 running = True
-
-
+setup_new_room()
 
 # --- 2. 게임 루프 ---
 while running:
@@ -130,12 +126,23 @@ while running:
                     elif check_collision(player.x, player.y, eating_planet_x, eating_planet_y, interaction_distance):
                         current_state = STATE_VIEWING_ART
                         currently_viewing_art = ART_EATING_PLANET
+
             elif current_state == STATE_VIEWING_ART:
                 current_state = STATE_GAMEPLAY
                 currently_viewing_art = ART_NONE
+                player.dir_x, player.dir_y = 0, 0
 
         elif current_state != STATE_VIEWING_ART:
             player.handle_event(event)
+
+    if current_state == STATE_GAMEPLAY:
+        if current_room_index == 1:
+            room_change_status = player.update()
+            if room_change_status == 'PREV':
+                current_state = STATE_FADING_OUT
+                transition_target_room = 0
+                success_count = 0
+
 
 
  # 4. 논리 계산 (업데이트)
@@ -258,7 +265,7 @@ while running:
 
 
             if anomaly_type == ANOMALY_MONALISA_SMILE:
-                monalisa_smile_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+                monalisa_smile_art.composite_draw(0, '', 400, 350, mona_large_w, mona_large_h)
             else:
                 monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
 
