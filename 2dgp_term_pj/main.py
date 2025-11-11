@@ -142,86 +142,71 @@ while running:
                 current_state = STATE_FADING_OUT
                 transition_target_room = 0
                 success_count = 0
+                transition_player_pos_x = player.boundary_right
+                fade_alpha = 0.0
 
+        elif current_room_index == 0:
+            room_change_status = player.update()
 
-
- # 4. 논리 계산 (업데이트)
-    if current_state == STATE_GAMEPLAY:
-        room_change_status = player.update()
-
-        if current_room_index == 0:
-            if room_change_status == 'NEXT':
-                if not is_anomaly_present:
-                    print("Correct: No anomaly. Proceeding to Room 1.")
+            if room_change_status == 'NEXT' or room_change_status == 'PREV':
+                is_correct_choice = False
+                if room_change_status == 'NEXT' and not is_anomaly_present:
+                    is_correct_choice = True
+                elif room_change_status == 'PREV' and is_anomaly_present:
+                    is_correct_choice = True
+                if is_correct_choice:
+                    success_count += 1
+                else:
+                    success_count = 0
+                if success_count >= FINAL_SUCCESS_COUNT:
                     transition_target_room = 1
                 else:
-                    print("Wrong: Anomaly was present. Resetting to Room 0.")
                     transition_target_room = 0
 
                 current_state = STATE_FADING_OUT
-                transition_player_pos_x = player.boundary_left
                 fade_alpha = 0.0
-
-            elif room_change_status == 'PREV':
-                if is_anomaly_present:
-                    print("Correct: Anomaly found. Reloading Room 0.")
-                    transition_target_room = 0
-                else:
-                     print("Wrong: No anomaly, but went back. Resetting to Room 0.")
-                     transition_target_room = 0
-
-                current_state = STATE_FADING_OUT
-                transition_player_pos_x = player.boundary_right
-                fade_alpha = 0.0
-
-        elif current_room_index == 1:
-            if room_change_status == 'PREV':
-                print("Returning to Room 0.")
-                transition_target_room = 0
-                current_state = STATE_FADING_OUT
-                transition_player_pos_x = player.boundary_right
-                fade_alpha = 0.0
+                if room_change_status == 'NEXT':
+                    transition_player_pos_x = player.boundary_left
+                else:  # 'PREV'
+                    transition_player_pos_x = player.boundary_right
 
     elif current_state == STATE_FADING_OUT:
         fade_alpha += 0.05
         if fade_alpha >= 1.0:
             fade_alpha = 1.0
-            current_room_index = transition_target_room  # ◀ 목표 방으로 설정
+            current_room_index = transition_target_room
             player.x = transition_player_pos_x
             current_state = STATE_FADING_IN
 
-    elif current_state == STATE_FADING_IN:
-        fade_alpha -= 0.05
-        if fade_alpha <= 0.0:
-            fade_alpha = 0.0
-            current_state = STATE_POST_FADE_DELAY
-            post_fade_delay_timer = get_time()
+        elif current_state == STATE_FADING_IN:
+            fade_alpha -= 0.05
+            if fade_alpha <= 0.0:
+                fade_alpha = 0.0
+                current_state = STATE_POST_FADE_DELAY
+                post_fade_delay_timer = get_time()
 
-    elif current_state == STATE_POST_FADE_DELAY:
-        if get_time() - post_fade_delay_timer > POST_FADE_DELAY_TIME:
-            current_state = STATE_GAMEPLAY
-            # ▼▼▼ [중요] 0번 방으로 돌아왔을 때만 새 이상 현상 세팅 ▼▼▼
-            if current_room_index == 0:
-                setup_new_room()
-            else:
-                # 1번 방에 도착하면 이상 현상 없음
-                is_anomaly_present = False
-                anomaly_type = 0
+        elif current_state == STATE_POST_FADE_DELAY:
+            if get_time() - post_fade_delay_timer > POST_FADE_DELAY_TIME:
+                current_state = STATE_GAMEPLAY
+                if current_room_index == 0:
+                    setup_new_room()
+                else:
+                    is_anomaly_present, anomaly_type = False, 0
 
 
 
     # 5. 그리기 (렌더링)
     clear_canvas()
+
     def draw_room_0_art():
         if anomaly_type == ANOMALY_MONALISA_SMILE:
             monalisa_smile_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
         else:
             monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
-        if anomaly_type != 2:
+            #추후 14개 이상 로직 여기 추가
+
             starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
-        if anomaly_type != 3:
             island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
-        if anomaly_type != 4:
             eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
 
     if current_state == STATE_TITLE:
