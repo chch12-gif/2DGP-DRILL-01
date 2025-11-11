@@ -15,6 +15,7 @@ ART_NONE = 0
 ART_MONALISA = 1
 ART_STARRY_NIGHT = 2
 ART_ISLAND = 3
+ART_EATING_PLANET = 4
 currently_viewing_art = ART_NONE
 
 current_room_index = 0
@@ -35,6 +36,11 @@ island_x = starry_night_x + (starry_night_w // 2) + (100 // 2) + 100
 island_y = 500
 island_w = 100
 island_h = 150
+
+eating_planet_x = island_x + (island_w // 2) + (100 // 2) + 100
+eating_planet_y = 500
+eating_planet_w = 100
+eating_planet_h = 150
 
 
 
@@ -65,6 +71,7 @@ background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
 starry_night_art = load_image('pic_2.png')
 island_art = load_image('pic_3.png')
+eating_planet_art = load_image('pic_4.png')
 black_pixel = load_image('black_pixel.png')
 title_screen_image = load_image('title.png')
 title_font = load_font('ariblk.ttf', 30)
@@ -99,6 +106,9 @@ while running:
                     elif check_collision(player.x, player.y, island_x, island_y, interaction_distance):
                         current_state = STATE_VIEWING_ART
                         currently_viewing_art = ART_ISLAND
+                    elif check_collision(player.x, player.y, eating_planet_x, eating_planet_y, interaction_distance):
+                        current_state = STATE_VIEWING_ART
+                        currently_viewing_art = ART_EATING_PLANET
             elif current_state == STATE_VIEWING_ART:
                 current_state = STATE_GAMEPLAY
                 currently_viewing_art = ART_NONE
@@ -166,6 +176,7 @@ while running:
             monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
             starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
             island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
+            eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
         elif current_room_index == 1:
             pass
 
@@ -177,6 +188,8 @@ while running:
         if current_room_index == 0:
             monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
             starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+            island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
+            eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
         elif current_room_index == 1:
             pass
 
@@ -192,6 +205,8 @@ while running:
             starry_night_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
         elif currently_viewing_art == ART_ISLAND:
             island_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+        elif currently_viewing_art == ART_EATING_PLANET:
+            eating_planet_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
     if current_state == STATE_FADING_OUT or current_state == STATE_FADING_IN:
         black_pixel.opacify(fade_alpha)
         black_pixel.draw(400, 300, 800, 600)
