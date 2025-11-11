@@ -57,6 +57,9 @@ def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
     distance_sq = (a_x - b_x) ** 2 + (a_y - b_y) ** 2
     return distance_sq < distance_threshold ** 2
 
+def setup_new_room():
+    global is_anomaly_present, anomaly_type
+
 fade_alpha = 0.0
 transition_target_room = 0
 transition_player_pos_x = 0
