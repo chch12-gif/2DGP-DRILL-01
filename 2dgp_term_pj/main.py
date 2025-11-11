@@ -60,6 +60,16 @@ def check_collision(a_x, a_y, b_x, b_y, distance_threshold):
 def setup_new_room():
     global is_anomaly_present, anomaly_type
 
+    if random.randint(0, 1) == 0:
+        is_anomaly_present = True
+        anomaly_type = random.randint(1, 4)
+        print(f"DEBUG: ANOMALY PRESENT (Type: {anomaly_type})")
+    else:
+        is_anomaly_present = False
+        anomaly_type = 0
+        print("DEBUG: No Anomaly.")
+
+
 fade_alpha = 0.0
 transition_target_room = 0
 transition_player_pos_x = 0
