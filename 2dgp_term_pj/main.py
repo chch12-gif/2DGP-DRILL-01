@@ -19,6 +19,9 @@ ART_ISLAND = 3
 ART_EATING_PLANET = 4
 currently_viewing_art = ART_NONE
 
+is_anomaly_present = False
+anomaly_type = 0
+
 current_room_index = 0
 
 mona_x = 100
