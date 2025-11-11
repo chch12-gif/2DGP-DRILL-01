@@ -17,6 +17,8 @@ ART_MONALISA = 1
 ART_STARRY_NIGHT = 2
 ART_ISLAND = 3
 ART_EATING_PLANET = 4
+ANOMALY_MONALISA_SMILE = 5
+
 currently_viewing_art = ART_NONE
 
 is_anomaly_present = False
@@ -62,8 +64,9 @@ def setup_new_room():
 
     if random.randint(0, 1) == 0:
         is_anomaly_present = True
-        anomaly_type = random.randint(1, 4)
-        print(f"DEBUG: ANOMALY PRESENT (Type: {anomaly_type})")
+
+        anomaly_type = ANOMALY_MONALISA_SMILE
+        print(f"DEBUG: ANOMALY PRESENT (Type: MONALISA SMILE - {anomaly_type})")
     else:
         is_anomaly_present = False
         anomaly_type = 0
@@ -86,6 +89,7 @@ player = Boy()
 # 1-2. 배경 및 사물 로드
 background = load_image('BACKGROUND.png')
 monalisa_art = load_image('pic_1.png')
+monalisa_smile_art = load_image('pic_1_2.png')
 starry_night_art = load_image('pic_2.png')
 island_art = load_image('pic_3.png')
 eating_planet_art = load_image('pic_4.png')
@@ -138,30 +142,45 @@ while running:
     if current_state == STATE_GAMEPLAY:
         room_change_status = player.update()
 
-        if room_change_status == 'NEXT':
-            current_state = STATE_FADING_OUT
-            transition_target_room = current_room_index + 1
-            transition_player_pos_x = player.boundary_left
-            fade_alpha = 0.0
+        if current_room_index == 0:
+            if room_change_status == 'NEXT':
+                if not is_anomaly_present:
+                    print("Correct: No anomaly. Proceeding to Room 1.")
+                    transition_target_room = 1
+                else:
+                    print("Wrong: Anomaly was present. Resetting to Room 0.")
+                    transition_target_room = 0
 
+                current_state = STATE_FADING_OUT
+                transition_player_pos_x = player.boundary_left
+                fade_alpha = 0.0
 
+            elif room_change_status == 'PREV':
+                if is_anomaly_present:
+                    print("Correct: Anomaly found. Reloading Room 0.")
+                    transition_target_room = 0
+                else:
+                     print("Wrong: No anomaly, but went back. Resetting to Room 0.")
+                     transition_target_room = 0
 
-        elif room_change_status == 'PREV':
-            current_state = STATE_FADING_OUT
-            transition_target_room = current_room_index - 1
-            transition_player_pos_x = player.boundary_right
-            fade_alpha = 0.0
+                current_state = STATE_FADING_OUT
+                transition_player_pos_x = player.boundary_right
+                fade_alpha = 0.0
 
-
-
+        elif current_room_index == 1:
+            if room_change_status == 'PREV':
+                print("Returning to Room 0.")
+                transition_target_room = 0
+                current_state = STATE_FADING_OUT
+                transition_player_pos_x = player.boundary_right
+                fade_alpha = 0.0
 
     elif current_state == STATE_FADING_OUT:
         fade_alpha += 0.05
         if fade_alpha >= 1.0:
             fade_alpha = 1.0
-            current_room_index = transition_target_room
+            current_room_index = transition_target_room  # ◀ 목표 방으로 설정
             player.x = transition_player_pos_x
-
             current_state = STATE_FADING_IN
 
     elif current_state == STATE_FADING_IN:
@@ -174,31 +193,50 @@ while running:
     elif current_state == STATE_POST_FADE_DELAY:
         if get_time() - post_fade_delay_timer > POST_FADE_DELAY_TIME:
             current_state = STATE_GAMEPLAY
+            # ▼▼▼ [중요] 0번 방으로 돌아왔을 때만 새 이상 현상 세팅 ▼▼▼
+            if current_room_index == 0:
+                setup_new_room()
+            else:
+                # 1번 방에 도착하면 이상 현상 없음
+                is_anomaly_present = False
+                anomaly_type = 0
+
 
 
     # 5. 그리기 (렌더링)
     clear_canvas()
+    def draw_room_0_art():
+        if anomaly_type == ANOMALY_MONALISA_SMILE:
+            monalisa_smile_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+        else:
+            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
+        if anomaly_type != 2:
+            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+        if anomaly_type != 3:
+            island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
+        if anomaly_type != 4:
+            eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
 
     if current_state == STATE_TITLE:
-        title_screen_image.draw(400, 300, 800, 600)
-
-        title_font.draw(180, 100, "press any key to start game", (255, 255, 255))
-
-
+       title_screen_image.draw(400, 300, 800, 600)
+       title_font.draw(180, 100, "press any key to start game", (255, 255, 255))
 
     elif current_state == STATE_GAMEPLAY or current_state == STATE_FADING_OUT:
-        background.draw(400, 300)
+       background.draw(400, 300)
+       if current_room_index == 0:
+           draw_room_0_art()  # ◀◀ [호출] 여기서 사용
+       elif current_room_index == 1:
+           pass
+       player.draw()
 
-        if current_room_index == 0:
-            monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
-            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
-            island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
-            eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
-        elif current_room_index == 1:
-            pass
+    elif current_state == STATE_FADING_IN or current_state == STATE_POST_FADE_DELAY:
+         background.draw(400, 300)
+         if current_room_index == 0:
+             draw_room_0_art()  # ◀◀ [호출] 여기서 사용
+         elif current_room_index == 1:
+             pass
+         player.draw()
 
-
-        player.draw()
 
     elif current_state == STATE_FADING_IN or current_state == STATE_POST_FADE_DELAY:
         background.draw(400, 300)
@@ -217,11 +255,19 @@ while running:
     elif current_state == STATE_VIEWING_ART:
         background.draw(400, 300)
         if currently_viewing_art == ART_MONALISA:
-            monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+
+
+            if anomaly_type == ANOMALY_MONALISA_SMILE:
+                monalisa_smile_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+            else:
+                monalisa_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+
         elif currently_viewing_art == ART_STARRY_NIGHT:
             starry_night_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+
         elif currently_viewing_art == ART_ISLAND:
             island_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
+
         elif currently_viewing_art == ART_EATING_PLANET:
             eating_planet_art.composite_draw(0, '', 400, 300, mona_large_w, mona_large_h)
     if current_state == STATE_FADING_OUT or current_state == STATE_FADING_IN:
