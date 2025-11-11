@@ -92,7 +92,7 @@ eating_planet_art = load_image('pic_4.png')
 black_pixel = load_image('black_pixel.png')
 title_screen_image = load_image('title.png')
 title_font = load_font('ariblk.ttf', 30)
-ui_font = load_font('Arial.ttf', 24)
+ui_font = load_font('ariblk.ttf', 24)
 
 running = True
 setup_new_room()
@@ -178,20 +178,20 @@ while running:
             player.x = transition_player_pos_x
             current_state = STATE_FADING_IN
 
-        elif current_state == STATE_FADING_IN:
-            fade_alpha -= 0.05
-            if fade_alpha <= 0.0:
-                fade_alpha = 0.0
-                current_state = STATE_POST_FADE_DELAY
-                post_fade_delay_timer = get_time()
+    elif current_state == STATE_FADING_IN:
+        fade_alpha -= 0.05
+        if fade_alpha <= 0.0:
+            fade_alpha = 0.0
+            current_state = STATE_POST_FADE_DELAY
+            post_fade_delay_timer = get_time()
 
-        elif current_state == STATE_POST_FADE_DELAY:
-            if get_time() - post_fade_delay_timer > POST_FADE_DELAY_TIME:
-                current_state = STATE_GAMEPLAY
-                if current_room_index == 0:
-                    setup_new_room()
-                else:
-                    is_anomaly_present, anomaly_type = False, 0
+    elif current_state == STATE_POST_FADE_DELAY:
+        if get_time() - post_fade_delay_timer > POST_FADE_DELAY_TIME:
+            current_state = STATE_GAMEPLAY
+            if current_room_index == 0:
+                setup_new_room()
+            else:
+                is_anomaly_present, anomaly_type = False, 0
 
 
 
@@ -205,9 +205,9 @@ while running:
             monalisa_art.composite_draw(0, '', mona_x, mona_y, mona_w, mona_h)
             #추후 14개 이상 로직 여기 추가
 
-            starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
-            island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
-            eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
+        starry_night_art.composite_draw(0, '', starry_night_x, starry_night_y, starry_night_w, starry_night_h)
+        island_art.composite_draw(0, '', island_x, island_y, island_w, island_h)
+        eating_planet_art.composite_draw(0, '', eating_planet_x, eating_planet_y, eating_planet_w, eating_planet_h)
 
 
     def draw_ui_text():
