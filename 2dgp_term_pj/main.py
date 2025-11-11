@@ -2,6 +2,7 @@
 
 from pico2d import *
 from boy import Boy
+import random
 
 STATE_TITLE = 0
 STATE_GAMEPLAY = 1
