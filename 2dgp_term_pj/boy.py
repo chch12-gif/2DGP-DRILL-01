@@ -27,7 +27,7 @@ class Boy:
         self.boundary_right = 800 - self.new_width // 2
         # 위치 및 속도 설정
         self.x = 400
-        self.y = 300  # 바닥 타일 중앙(y=300)으로 설정
+        self.y = 300
         self.walk_speed = 5
         self.run_speed = 10
         self.current_speed = self.walk_speed
@@ -42,25 +42,29 @@ class Boy:
     def handle_event(self, event):
         if event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
-                self.dir_x += 1
+                self.dir_x = 1
             elif event.key == SDLK_LEFT:
-                self.dir_x -= 1
+                self.dir_x = -1
             elif event.key == SDLK_UP:
-                self.dir_y += 1
+                self.dir_y = 1
             elif event.key == SDLK_DOWN:
-                self.dir_y -= 1
+                self.dir_y = -1
             elif event.key == SDLK_LSHIFT or event.key == SDLK_RSHIFT:
                 self.running_state = True
                 self.current_speed = self.run_speed
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
-                self.dir_x -= 1
+              if self.dir_x == 1:
+                  self.dir_x = 0
             elif event.key == SDLK_LEFT:
-                self.dir_x += 1
+                if self.dir_x == -1:
+                    self.dir_x = 0
             elif event.key == SDLK_UP:
-                self.dir_y -= 1
+                if self.dir_y == 1:
+                    self.dir_y = 0
             elif event.key == SDLK_DOWN:
-                self.dir_y += 1
+                if self.dir_y == -1:
+                    self.dir_y = 0
             elif event.key == SDLK_LSHIFT or event.key == SDLK_RSHIFT:
                 self.running_state = False
                 self.current_speed = self.walk_speed

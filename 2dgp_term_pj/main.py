@@ -132,6 +132,8 @@ while running:
                 currently_viewing_art = ART_NONE
                 player.dir_x, player.dir_y = 0, 0
 
+                get_events()
+
         elif current_state != STATE_VIEWING_ART:
             player.handle_event(event)
 
