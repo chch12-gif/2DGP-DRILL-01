@@ -9,7 +9,7 @@ import common
 
 from boy import Boy
 from court import Court
-from ball import Ball
+from court import TileCourt as Court
 
 
 def handle_events():
@@ -28,21 +28,8 @@ def init():
     common.court = Court()
     game_world.add_object(common.court, 0)
 
-    # 점수 초기화
-    common.score = 0
-
-    # 공 100개 생성 (먼저 추가하여 보이가 위에 렌더링 되도록 함)
-    balls = [Ball() for _ in range(100)]
-    game_world.add_objects(balls, 1)
-
-    # 보이 생성 및 추가
     common.boy = Boy()
     game_world.add_object(common.boy, 1)
-
-    # 충돌 쌍 등록: 왼쪽에는 보이, 오른쪽에는 각 공들을 개별적으로 추가
-    game_world.add_collision_pair('boy:ball', common.boy, None)
-    for b in balls:
-        game_world.add_collision_pair('boy:ball', None, b)
 
 
 def finish():
@@ -64,3 +51,4 @@ def pause():
 
 def resume():
     pass
+
